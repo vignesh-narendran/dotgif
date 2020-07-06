@@ -3,7 +3,6 @@ $(document).ready(() => {
 	var inputData;
 	const resetState = () => {
 		$('.errorbox-c').hide();
-		$('.no-result-container-c').hide();
 		$('.errorbox-c').html('');
 		$('.result-container-c').html('');
 		$('.morebtn-c').hide();
@@ -62,7 +61,7 @@ $(document).ready(() => {
 	};
 
 	const showResult = (data) => {
-		data.length === 0 ? $('.no-result-container-c').show() : resetState();
+		data.length === 0 ? displayDirector(null, 404) : resetState();
 		data.map((item) => {
 			$('.result-container-c').append(
 				`<div class="result-item-c" id=${item.id}><img src=${item.images.preview_gif.url} alt=${item.title}/></div>`

@@ -66,8 +66,7 @@ input:focus {
 	border-radius: 10px;
 }
 
-.errorbox-c,
-.no-result-container-c {
+.errorbox-c{
 	background: var(--ERROR-BG);
 	padding: 10px;
 	border-radius: 5px;
