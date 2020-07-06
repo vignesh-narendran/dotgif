@@ -26,15 +26,19 @@ $(document).ready(() => {
 	});
 
 	const getGifs = async (query, limit) => {
-		await fetch(
-			`http://api.giphy.com/v1/gifs/search?q=${query}&api_key=${config.API_KEY}&limit=${limit}`
-		)
-			.then((response) => displayDirector(response, response.status))
-			.then((resData) => showResult(resData.data))
-			.catch((err) => console.error(`Some Error Occured :: ${err}`));
+		try {
+			await fetch(
+				`http://api.giphy.com/v1/gifs/search?q=${query}&api_key=${config.API_KEY}&limit=${limit}`
+			)
+				.then((response) => displayDirector(response.json(), response.status))
+				.then((resData) => showResult(resData.data));
+		} catch (err) {
+			console.error(`Some fatal error occured ${err}`);
+		}
 	};
 
 	const displayDirector = (response, status) => {
+		console.log(response);
 		switch (status) {
 			case 200:
 				console.log('Success');
@@ -52,7 +56,7 @@ $(document).ready(() => {
 					'We are not sure what happened. But our server is not responding. &#128528'
 				);
 		}
-		return response.json();
+		return response;
 	};
 
 	const showError = (data) => {
@@ -61,7 +65,7 @@ $(document).ready(() => {
 	};
 
 	const showResult = (data) => {
-		data.length === 0 ? displayDirector(null, 404) : resetState();
+		data.length === 0 ? displayDirector(true, 404) : resetState();
 		data.map((item) => {
 			$('.result-container-c').append(
 				`<div class="result-item-c" id=${item.id}><img src=${item.images.preview_gif.url} alt=${item.title}/></div>`
